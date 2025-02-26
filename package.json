@@ -24,6 +24,8 @@
     "nodemon": "^3.1.9",
     "pinia": "^3.0.1",
     "playwright": "^1.50.1",
+    "survey-core": "^1.12.25",
+    "survey-vue3-ui": "^1.12.25",
     "vue": "^3.5.13"
   },
   "devDependencies": {

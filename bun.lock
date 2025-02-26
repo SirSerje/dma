@@ -9,6 +9,8 @@
         "nodemon": "^3.1.9",
         "pinia": "^3.0.1",
         "playwright": "^1.50.1",
+        "survey-core": "^1.12.25",
+        "survey-vue3-ui": "^1.12.25",
         "vue": "^3.5.13",
       },
       "devDependencies": {
@@ -961,6 +963,10 @@
     "superjson": ["superjson@2.2.2", "", { "dependencies": { "copy-anything": "^3.0.2" } }, "sha512-5JRxVqC8I8NuOUjzBbvVJAKNM8qoVuH0O77h4WInc/qC2q5IreqKxYwgkga3PfA22OayK2ikceb/B26dztPl+Q=="],
 
     "supports-color": ["supports-color@5.5.0", "", { "dependencies": { "has-flag": "^3.0.0" } }, "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow=="],
+
+    "survey-core": ["survey-core@1.12.25", "", {}, "sha512-dWt9xf5fnaoMrPd4/bWg5L7IkTtMoWU9NW6ZVtyCjoJ0s9LtjMgl44/tIuEtB4ht0amONmueSxRz9qrdmvU0Dw=="],
+
+    "survey-vue3-ui": ["survey-vue3-ui@1.12.25", "", { "peerDependencies": { "survey-core": "1.12.25", "vue": "^3.2.41" } }, "sha512-BS2/44V6NWXvk6osUsmK2C+oP+LCS+w7BPSkP3PlPPuBQfLf0SOlRGrnRAul8J8sIZse3O+JzTPUkP7HXvqH+g=="],
 
     "svg-tags": ["svg-tags@1.0.0", "", {}, "sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA=="],
 

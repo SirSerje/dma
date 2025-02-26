@@ -1,13 +1,12 @@
-
 <template>
-  <Header/>
+  <Header />
   <Main>
-    hello world
+    <SurveyRoot></SurveyRoot>
   </Main>
 </template>
 
 <script setup lang="ts">
 import Main from './layouts/Main.vue';
 import Header from './components/Header.vue'
+import SurveyRoot from './components/survey/SurveyRoot.vue'
 </script>
-
