@@ -1,9 +1,8 @@
 <script setup lang="ts">
+// just example
 import { useCounterStore } from './stores/counter.ts'
 import ProxyTester from './components/ProxyTester.vue'
-const counterStore = useCounterStore();
-
-
+const counterStore = useCounterStore()
 </script>
 
 <template>
@@ -14,13 +13,10 @@ const counterStore = useCounterStore();
     <b>Count: {{ counterStore.count }}</b>
     <b>Double Count: {{ counterStore.doubleCount }}</b>
     <button @click="counterStore.increment()">Increment</button>
-    <ProxyTester/>
-
+    <ProxyTester />
   </header>
 
-  <main>
-
-  </main>
+  <main></main>
 </template>
 
 <style scoped>

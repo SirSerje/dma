@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <h2>Proxy Tester</h2>
@@ -14,6 +13,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+// will be updated
 import { domain } from '../utils/api'
 const data = ref([])
 const loading = ref(true)
@@ -33,4 +33,3 @@ onMounted(async () => {
   }
 })
 </script>
-

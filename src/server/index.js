@@ -1,14 +1,13 @@
-
 // server.js
-import express from 'express';
-import cors from 'cors';
+import express from 'express'
+import cors from 'cors'
 
-const app = express();
-const PORT = process.argv[2] || 3002;
+const app = express()
+const PORT = process.argv[2] || 3002
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors())
+app.use(express.json())
 
 // Default HTML Response
 app.get('/', (req, res) => {
@@ -26,21 +25,16 @@ app.get('/', (req, res) => {
       <a href="/api/test-endpoint">Check API Endpoint</a>
     </body>
     </html>
-  `);
-});
+  `)
+})
 
 // API Endpoint
 app.get('/api/test-endpoint', (req, res) => {
-  const sampleData = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-  ];
-  res.json(sampleData);
-});
+  const sampleData = ['Item 1', 'Item 2', 'Item 3']
+  res.json(sampleData)
+})
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-
+  console.log(`Server is running on http://localhost:${PORT}`)
+})
