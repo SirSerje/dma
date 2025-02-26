@@ -4,10 +4,17 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 
 export const useSurveyStore = defineStore('surveyStore', () => {
-  const data = ref({});
+  const data = ref<ConfigurationResponse | null>(null);
+  const loading = ref(true);
+  // scoping config value for simplicity without removing
+  // original response
+  const config = computed(() => data.value?.data?.survey?.config);
+
   const setConfig = (response: ConfigurationResponse) => {
-    console.log('store update', response)
     data.value = response;
-  }
-  return { setConfig, data }
+    loading.value = false;
+  };
+
+  return { setConfig, data, loading, config };
 });
+

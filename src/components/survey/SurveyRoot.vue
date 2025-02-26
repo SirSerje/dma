@@ -1,5 +1,6 @@
 <template>
-  <SurveyComponent v-if="survey" :model="survey" />
+  <div v-if="store.loading">Loading...</div>
+  <SurveyComponent v-else :model="survey" />
 </template>
 
 <script setup lang="ts">
@@ -10,19 +11,19 @@ import * as SurveyTheme from 'survey-core/themes';
 import 'survey-core/defaultV2.min.css';
 import { useSurveyStore } from '../../stores/surveyStore';
 
-const survey = ref<Model | null>(null);
 const store = useSurveyStore();
 
+const survey = ref(new Model({}));
+survey.value.applyTheme(SurveyTheme.SharpLight);
+
 watch(
-  () => store.data,
-  (newVal) => {
-    if (newVal?.data?.survey?.config) {
-      const newSurvey = new Model(newVal.data.survey.config);
-      newSurvey.applyTheme(SurveyTheme.SharpLight);
-      survey.value = newSurvey;
+  () => store.config,
+  (config) => {
+    if (config) {
+      survey.value = new Model(config);
     }
   },
-  { deep: true }
+  { immediate: true }
 );
 
 onMounted(() => {
