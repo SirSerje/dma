@@ -1,3 +1,5 @@
+// the exact structure for response hasn't defined yet
+// remove this message after
 export const mockResponse = {
   ok: true,
   errors: [],
@@ -31,4 +33,4 @@ export const mockResponse = {
       },
     },
   },
-};
+}

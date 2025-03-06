@@ -4,31 +4,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
-import { Model } from 'survey-core';
-import { SurveyComponent } from 'survey-vue3-ui';
-import * as SurveyTheme from 'survey-core/themes';
-import 'survey-core/defaultV2.min.css';
-import { useSurveyStore } from '../../stores/surveyStore';
+import { ref, Ref, onMounted, watch } from 'vue'
+import { Model } from 'survey-core'
+import { SurveyComponent } from 'survey-vue3-ui'
+import * as SurveyTheme from 'survey-core/themes'
+import 'survey-core/defaultV2.min.css'
+import { useSurveyStore } from '../../stores/surveyStore'
 
-const store = useSurveyStore();
+const store = useSurveyStore()
 
-const survey = ref(new Model({}));
-survey.value.applyTheme(SurveyTheme.SharpLight);
+const survey: Ref = ref(new Model({}))
+survey.value.applyTheme(SurveyTheme.SharpLight)
 
 watch(
   () => store.config,
   (config) => {
     if (config) {
-      survey.value = new Model(config);
+      survey.value = new Model(config)
     }
   },
-  { immediate: true }
-);
+  { immediate: true },
+)
 
 onMounted(() => {
   fetch('/api/getconfig')
-    .then(res => res.json())
-    .then(value => store.setConfig(value));
-});
+    .then((res) => res.json())
+    .then((value) => store.setConfig(value))
+})
 </script>

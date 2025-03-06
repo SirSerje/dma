@@ -1,6 +1,6 @@
-/* eslint-disable */
 declare module '*.vue' {
-  import type { DefineComponent } from 'vue'
+  import { DefineComponent } from 'vue'
+  //@ts-nocheck
   const component: DefineComponent<{}, {}, any>
   export default component
 }

@@ -10,7 +10,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  ;
   background-color: var(--color-background-dark);
   color: var(--color-text-light);
 }
@@ -21,7 +20,6 @@
   margin-top: 15px;
   margin-bottom: 15px;
 }
-
 
 .select {
   color: var(--color-white-primary);

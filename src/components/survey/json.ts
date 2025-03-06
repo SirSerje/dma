@@ -1,14 +1,14 @@
 export const json = {
-  "logoPosition": "right",
-  "pages": [
+  logoPosition: 'right',
+  pages: [
     {
-      "name": "page1",
-      "elements": [
+      name: 'page1',
+      elements: [
         {
-          "type": "text",
-          "name": "question1"
-        }
-      ]
-    }
-  ]
+          type: 'text',
+          name: 'question1',
+        },
+      ],
+    },
+  ],
 }
