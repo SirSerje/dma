@@ -21,11 +21,13 @@ const survey: Ref<Model> = ref(new Model({}))
 survey.value.applyTheme(SurveyTheme.SharpLight)
 
 watch(
-  () => store.config,
-  (config) => {
-    if (config) {
-      survey.value = new Model(config)
+  () => store.data,
+  (storeData) => {
+    const value = storeData?.data?.config;
+    if (!value) {
+      return
     }
+    survey.value = new Model(value)
   },
   { immediate: true },
 )
@@ -40,6 +42,6 @@ watch(
 onMounted(() => {
   fetch('/api/getconfig')
     .then((res) => res.json())
-    .then((value) => store.setConfig(value))
+    .then(store.setConfig)
 })
 </script>

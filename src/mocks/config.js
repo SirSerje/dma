@@ -3,8 +3,8 @@ export const mockResponse = {
   errors: [],
   data: {
     config: {
-      locale: 'en',
-      logoPosition: 'right',
+      locale: 'fr',
+      logoPosition: 'left',
       pages: [
         {
           name: 'page1',

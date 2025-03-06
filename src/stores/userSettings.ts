@@ -7,7 +7,6 @@ export enum LANGUAGES {
   French = 'French',
 }
 
-// Mapping LANGUAGES to SurveyJS locale codes
 const SURVEY_LOCALES: Record<LANGUAGES, string> = {
   [LANGUAGES.English]: 'en',
   [LANGUAGES.Spanish]: 'es',
@@ -19,7 +18,7 @@ export const useUserSettingsStore = defineStore('userSettings', {
     language: LANGUAGES.English,
   }),
   getters: {
-    surveyLocale: (state) => SURVEY_LOCALES[state.language], // Get SurveyJS-compatible locale
+    surveyLocale: (state) => SURVEY_LOCALES[state.language],
   },
   actions: {
     setLanguage(lang: LANGUAGES) {
