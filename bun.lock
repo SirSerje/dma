@@ -4,11 +4,7 @@
     "": {
       "name": "dma",
       "dependencies": {
-        "cors": "^2.8.5",
-        "express": "^4.21.2",
-        "nodemon": "^3.1.9",
         "pinia": "^3.0.1",
-        "playwright": "^1.50.1",
         "survey-core": "^1.12.25",
         "survey-vue3-ui": "^1.12.25",
         "vue": "^3.5.13",
@@ -26,14 +22,18 @@
         "@vue/eslint-config-typescript": "^14.4.0",
         "@vue/test-utils": "^2.4.6",
         "@vue/tsconfig": "^0.7.0",
+        "cors": "^2.8.5",
         "eslint": "^9.20.1",
         "eslint-plugin-oxlint": "^0.15.10",
         "eslint-plugin-playwright": "^2.2.0",
         "eslint-plugin-vue": "^9.32.0",
+        "express": "^4.21.2",
         "jiti": "^2.4.2",
         "jsdom": "^26.0.0",
+        "nodemon": "^3.1.9",
         "npm-run-all2": "^7.0.2",
         "oxlint": "^0.15.10",
+        "playwright": "^1.50.1",
         "prettier": "^3.5.1",
         "typescript": "^5.7.3",
         "vite": "^6.1.0",
@@ -532,7 +532,7 @@
 
     "fs-extra": ["fs-extra@11.3.0", "", { "dependencies": { "graceful-fs": "^4.2.0", "jsonfile": "^6.0.1", "universalify": "^2.0.0" } }, ""],
 
-    "fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, ""],
+    "fsevents": ["fsevents@2.3.2", "", { "os": "darwin" }, ""],
 
     "function-bind": ["function-bind@1.1.2", "", {}, ""],
 
@@ -580,7 +580,7 @@
 
     "human-signals": ["human-signals@8.0.0", "", {}, ""],
 
-    "iconv-lite": ["iconv-lite@0.6.3", "", { "dependencies": { "safer-buffer": ">= 2.1.2 < 3.0.0" } }, ""],
+    "iconv-lite": ["iconv-lite@0.4.24", "", { "dependencies": { "safer-buffer": ">= 2.1.2 < 3" } }, ""],
 
     "ignore": ["ignore@5.3.2", "", {}, ""],
 
@@ -1048,11 +1048,11 @@
 
     "body-parser/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, ""],
 
-    "body-parser/iconv-lite": ["iconv-lite@0.4.24", "", { "dependencies": { "safer-buffer": ">= 2.1.2 < 3" } }, ""],
-
     "chalk/ansi-styles": ["ansi-styles@4.3.0", "", { "dependencies": { "color-convert": "^2.0.1" } }, ""],
 
     "chalk/supports-color": ["supports-color@7.2.0", "", { "dependencies": { "has-flag": "^4.0.0" } }, ""],
+
+    "chokidar/fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, ""],
 
     "chokidar/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, ""],
 
@@ -1074,9 +1074,7 @@
 
     "npm-run-path/path-key": ["path-key@4.0.0", "", {}, ""],
 
-    "playwright/fsevents": ["fsevents@2.3.2", "", { "os": "darwin" }, ""],
-
-    "raw-body/iconv-lite": ["iconv-lite@0.4.24", "", { "dependencies": { "safer-buffer": ">= 2.1.2 < 3" } }, ""],
+    "rollup/fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, ""],
 
     "send/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, ""],
 
@@ -1088,6 +1086,8 @@
 
     "strip-ansi-cjs/ansi-regex": ["ansi-regex@5.0.1", "", {}, ""],
 
+    "vite/fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, ""],
+
     "vue-eslint-parser/eslint-scope": ["eslint-scope@7.2.2", "", { "dependencies": { "esrecurse": "^4.3.0", "estraverse": "^5.2.0" } }, ""],
 
     "vue-eslint-parser/eslint-visitor-keys": ["eslint-visitor-keys@3.4.3", "", {}, ""],
@@ -1095,6 +1095,8 @@
     "vue-eslint-parser/espree": ["espree@9.6.1", "", { "dependencies": { "acorn": "^8.9.0", "acorn-jsx": "^5.3.2", "eslint-visitor-keys": "^3.4.1" } }, ""],
 
     "w3c-xmlserializer/xml-name-validator": ["xml-name-validator@5.0.0", "", {}, ""],
+
+    "whatwg-encoding/iconv-lite": ["iconv-lite@0.6.3", "", { "dependencies": { "safer-buffer": ">= 2.1.2 < 3.0.0" } }, ""],
 
     "wrap-ansi-cjs/ansi-styles": ["ansi-styles@4.3.0", "", { "dependencies": { "color-convert": "^2.0.1" } }, ""],
 
