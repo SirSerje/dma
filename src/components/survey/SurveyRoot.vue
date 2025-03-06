@@ -9,11 +9,15 @@ import { Model } from 'survey-core'
 import { SurveyComponent } from 'survey-vue3-ui'
 import * as SurveyTheme from 'survey-core/themes'
 import 'survey-core/defaultV2.min.css'
+import "survey-core/survey.i18n";
 import { useSurveyStore } from '../../stores/surveyStore'
+import { useUserSettingsStore } from '@/stores/userSettings'
+import "survey-core/survey.i18n";
 
 const store = useSurveyStore()
+const userSettings = useUserSettingsStore()
 
-const survey: Ref = ref(new Model({}))
+const survey: Ref<Model> = ref(new Model({}))
 survey.value.applyTheme(SurveyTheme.SharpLight)
 
 watch(
@@ -24,6 +28,13 @@ watch(
     }
   },
   { immediate: true },
+)
+
+watch(
+  () => userSettings.surveyLocale,
+  (newLang) => {
+    survey.value.locale = newLang;
+  }
 )
 
 onMounted(() => {
