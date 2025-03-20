@@ -4,7 +4,7 @@ export const mockResponse = {
   data: {
     config: {
       locale: 'en',
-      "completedHtml": "<h3>Thank you for your feedback</h3>\n<p>You can close this page</p>",
+      completedHtml: '<h3>Thank you for your feedback</h3>\n<p>You can close this page</p>',
       logoPosition: 'left',
       pages: [
         {
@@ -50,6 +50,5 @@ export const mockResponse = {
         },
       ],
     },
-  }
+  },
 }
-
