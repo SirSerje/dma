@@ -9,26 +9,45 @@ import { Model } from 'survey-core'
 import { SurveyComponent } from 'survey-vue3-ui'
 import * as SurveyTheme from 'survey-core/themes'
 import 'survey-core/defaultV2.min.css'
+import "survey-core/survey.i18n";
 import { useSurveyStore } from '../../stores/surveyStore'
+import { useUserSettingsStore } from '@/stores/userSettings'
+import { options } from './utils.ts';
 
 const store = useSurveyStore()
+const userSettings = useUserSettingsStore()
 
-const survey: Ref = ref(new Model({}))
+const survey: Ref<Model> = ref(new Model({}))
 survey.value.applyTheme(SurveyTheme.SharpLight)
 
 watch(
-  () => store.config,
-  (config) => {
-    if (config) {
-      survey.value = new Model(config)
-    }
+  () => store.data,
+  (storeData) => {
+    const value = storeData?.data?.config;
+    if (!value) return;
+    survey.value = new Model(value);
+    survey.value.onComplete.add((sender) => {
+      fetch('/api/submit', {
+        method: 'POST',
+        ...options,
+        body: prepareResponse(sender.data)
+      }).then(console.log);
+    });
   },
-  { immediate: true },
+  { immediate: true }
+)
+const prepareResponse = (data) => JSON.stringify(data);
+
+watch(
+  () => userSettings.surveyLocale,
+  (newLang) => {
+    survey.value.locale = newLang;
+  }
 )
 
 onMounted(() => {
   fetch('/api/getconfig')
     .then((res) => res.json())
-    .then((value) => store.setConfig(value))
+    .then(store.setConfig);
 })
 </script>

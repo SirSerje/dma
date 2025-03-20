@@ -1,9 +1,20 @@
 <template>
   <header class="header">
     <img src="@/assets/logo.svg" alt="Logo" class="logo" />
-    <div class="select">Select</div>
+    <select v-model="userSettings.language" class="select">
+      <option v-for="lang in languageOptions" :key="lang" :value="lang">
+        {{ lang }}
+      </option>
+    </select>
   </header>
 </template>
+
+<script setup lang="ts">
+import { useUserSettingsStore, LANGUAGES } from '@/stores/userSettings';
+
+const userSettings = useUserSettingsStore();
+const languageOptions = Object.values(LANGUAGES);
+</script>
 
 <style scoped>
 .header {
@@ -22,7 +33,7 @@
 }
 
 .select {
-  color: var(--color-white-primary);
   margin-right: 32px;
+  width: 150px;
 }
 </style>

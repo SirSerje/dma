@@ -1,4 +1,3 @@
-// (!) 'bun' runs ts without additional config
 import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import { mockResponse } from '../mocks/config.js'
@@ -19,6 +18,14 @@ app.get('/', (req: Request, res: Response) => {
 
 app.get('/api/getconfig', (req: Request, res: Response) => {
   res.json(mockResponse)
+})
+
+app.post('/api/submit', (req: Request, res: Response) => {
+  const response = Math.random() > 0.5
+    ? { ok: true, errors: [] }
+    : { ok: false, errors: ['issue happened'] }
+
+  res.json(response)
 })
 
 app.listen(PORT, () => {

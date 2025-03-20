@@ -16,7 +16,7 @@
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
     "format": "prettier --write src/",
-    "dev:server": "bun run src/server/server.ts 3002"
+    "dev:server": "bun run --watch src/server/server.ts 3002"
   },
   "dependencies": {
     "pinia": "^3.0.1",
