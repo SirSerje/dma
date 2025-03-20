@@ -12,7 +12,7 @@ import 'survey-core/defaultV2.min.css'
 import "survey-core/survey.i18n";
 import { useSurveyStore } from '../../stores/surveyStore'
 import { useUserSettingsStore } from '@/stores/userSettings'
-import "survey-core/survey.i18n";
+import { options } from './utils.ts';
 
 const store = useSurveyStore()
 const userSettings = useUserSettingsStore()
@@ -24,13 +24,19 @@ watch(
   () => store.data,
   (storeData) => {
     const value = storeData?.data?.config;
-    if (!value) {
-      return
-    }
-    survey.value = new Model(value)
+    if (!value) return;
+    survey.value = new Model(value);
+    survey.value.onComplete.add((sender) => {
+      fetch('/api/submit', {
+        method: 'POST',
+        ...options,
+        body: prepareResponse(sender.data)
+      }).then(console.log);
+    });
   },
-  { immediate: true },
+  { immediate: true }
 )
+const prepareResponse = (data) => JSON.stringify(data);
 
 watch(
   () => userSettings.surveyLocale,
@@ -42,6 +48,6 @@ watch(
 onMounted(() => {
   fetch('/api/getconfig')
     .then((res) => res.json())
-    .then(store.setConfig)
+    .then(store.setConfig);
 })
 </script>

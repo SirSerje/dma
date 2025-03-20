@@ -3,7 +3,8 @@ export const mockResponse = {
   errors: [],
   data: {
     config: {
-      locale: 'fr',
+      locale: 'en',
+      "completedHtml": "<h3>Thank you for your feedback</h3>\n<p>You can close this page</p>",
       logoPosition: 'left',
       pages: [
         {
