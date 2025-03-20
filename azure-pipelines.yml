@@ -1,0 +1,180 @@
+trigger:
+  branches:
+    exclude:
+      - "*"
+
+pr:
+  autoCancel: 'false'
+  branches:
+    include:
+      - develop
+
+variables:
+  CACHE_RESTORED: 'false'
+  npm_config_cache: $(Build.SourcesDirectory)/node_modules
+
+pool:
+  name: Default scale set
+
+stages:
+- stage: build
+  displayName: "Build Vue UI and publish artifacts"
+  jobs:
+  - job: build_ui
+    steps:
+    - checkout: self
+      clean: 'true'
+      lfs: 'true'
+      submodules: recursive
+      persistCredentials: 'true'
+      fetchDepth: '0'
+
+    - script: |
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+        source ~/.nvm/nvm.sh
+        nvm install v20
+        nvm use
+      displayName: "Install / Use Node.js 16"
+
+    - task: Cache@2
+      inputs:
+        key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/package-lock.json'
+        restoreKeys: |
+          npm | "$(Agent.OS)"
+        path: $(npm_config_cache)
+        cacheHitVar: CACHE_RESTORED
+      displayName: "Cache NPM packages"
+
+    - script: |
+        curl -fsSL https://bun.sh/install | bash
+        export BUN_INSTALL="$HOME/.bun"
+        export PATH="$BUN_INSTALL/bin:$PATH"
+      displayName: "Install Bun"
+
+    - script: |
+        if [ "$(CACHE_RESTORED)" != "true" ]; then
+          bun install
+        else
+          echo "Cache restored; skipping bun install."
+        fi
+      displayName: "Install dependencies (via Bun)"
+
+    - script: |
+        bun run build
+        ls dist
+      displayName: "Perform build"
+
+    - publish: dist
+      artifact: dist
+
+- stage: "deploy_Integration_NA"
+  variables:
+    - group: Ang-Integration_NA
+  jobs:
+  - deployment: DeployWeb
+    displayName: "Deploy to NA_INT"
+    pool:
+      vmImage: "Ubuntu-latest"
+    environment: "NA_INT"
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: replacetokens@5
+            inputs:
+              targetFiles: "$(Pipeline.Workspace)/dist/**/main*.js"
+              encoding: "auto"
+              tokenPattern: "custom"
+              tokenPrefix: "##{"
+              tokenSuffix: "}##"
+              writeBOM: true
+              verbosity: "detailed"
+              actionOnMissing: "fail"
+              keepToken: false
+              actionOnNoFiles: "fail"
+              enableTransforms: false
+              enableRecursion: false
+              useLegacyPattern: false
+              enableTelemetry: true
+
+          - task: ArchiveFiles@2
+            inputs:
+              rootFolderOrFile: "$(Pipeline.Workspace)/dist"
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/UI-Build-int-$(Build.BuildId).zip"
+              replaceExistingArchive: true
+              verbose: true
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: "drop"
+              publishLocation: "Container"
+
+          - task: DownloadBuildArtifacts@1
+            inputs:
+              buildType: "current"
+              downloadType: "specific"
+              downloadPath: "$(System.ArtifactsDirectory)"
+
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: "AzureRM"
+              azureSubscription: "na1-fb-int-deploy"
+              appType: "webApp"
+              WebAppName: "NA1-FB-INT-AngApp"
+              packageForLinux: "$(System.ArtifactsDirectory)/drop/UI-Build-int-$(Build.BuildId).zip"
+
+- stage: "deploy_Staging_NA"
+  variables:
+    - group: Ang-Staging-NA
+  jobs:
+  - deployment: DeployWeb
+    displayName: "Deploy to NA_TST"
+    pool:
+      vmImage: "Ubuntu-latest"
+    environment: "NA_TST"
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: replacetokens@5
+            inputs:
+              targetFiles: "$(Pipeline.Workspace)/dist/**/main*.js"
+              encoding: "auto"
+              tokenPattern: "custom"
+              tokenPrefix: "##{"
+              tokenSuffix: "}##"
+              writeBOM: true
+              verbosity: "detailed"
+              actionOnMissing: "fail"
+              keepToken: false
+              actionOnNoFiles: "fail"
+              enableTransforms: false
+              enableRecursion: false
+              useLegacyPattern: false
+              enableTelemetry: true
+
+          - task: ArchiveFiles@2
+            inputs:
+              rootFolderOrFile: "$(Pipeline.Workspace)/dist"
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/UI-Build-int-$(Build.BuildId).zip"
+              replaceExistingArchive: true
+              verbose: true
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: "drop"
+              publishLocation: "Container"
+
+          - task: DownloadBuildArtifacts@1
+            inputs:
+              buildType: "current"
+              downloadType: "specific"
+              downloadPath: "$(System.ArtifactsDirectory)"
+
+          - task: AzureRmWebAppDeployment@4      

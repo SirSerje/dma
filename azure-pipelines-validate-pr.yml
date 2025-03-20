@@ -1,0 +1,59 @@
+trigger:
+  branches:
+    exclude:
+      - '*'
+
+pr:
+  autoCancel: true
+  branches:
+    include:
+      - develop
+
+variables:
+  BASE: $[replace(variables['System.PullRequest.TargetBranch'],'refs/heads/','remotes/origin/')]
+  ENVIRONMENT: $(ENV)
+
+pool:
+  name: FBAgentpool-AzureVM
+
+stages:
+- stage: validateg
+  displayName: PR Validation Pipeline
+  jobs:
+  - job: validate_pr
+    steps:
+    - checkout: self
+      clean: true
+      lfs: true
+      submodules: recursive
+      persistCredentials: true
+      fetchDepth: 0
+    - script: |
+        echo "Checking out PR Branch..."
+        echo "PR branch: refs/remotes/pull/$(System.Pullrequest.PullRequestId)/merge"
+        git fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/pull/$(System.Pullrequest.PullRequestId)/merge:refs/remotes/pull/$(System.Pullrequest.PullRequestId)/merge
+        git checkout --progress --force refs/remotes/pull/$(System.Pullrequest.PullRequestId)/merge
+      displayName: 'Custom checkout'
+    - script: |
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+        source ~/.nvm/nvm.sh
+        nvm install v20
+        nvm
+      displayName: 'Use Node.js 16'
+    - script: |
+        curl -fsSL https://bun.sh/install | bash
+        export BUN_INSTALL="$HOME/.bun"
+        export PATH="$BUN_INSTALL/bin:$PATH"
+      displayName: 'Install Bun'
+    - script: |
+        bun install
+      displayName: 'Install dependencies'
+    - script: |
+        echo "BASE Branch: $(BASE)"
+        echo "System.Pullrequest.PullRequestId: $(System.Pullrequest.PullRequestId)"
+        echo "Build.Repository.Name: $(Build.Repository.Name)"
+        echo "Build.Repository.Provider: $(Build.Repository.Provider)"
+      displayName: 'Output debug data'
+    - script: |
+        bun run build
+      displayName: 'Perform build'
