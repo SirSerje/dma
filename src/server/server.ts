@@ -21,8 +21,9 @@ app.get('/api/getconfig', (req: Request, res: Response) => {
 })
 
 app.post('/api/submit', (req: Request, res: Response) => {
-  const response =
-    Math.random() > 0.5 ? { ok: true, errors: [] } : { ok: false, errors: ['issue happened'] }
+  const response = Math.random() > 0.5
+    ? { ok: true, errors: [] }
+    : { ok: false, errors: ['issue happened'] }
 
   res.json(response)
 })

@@ -1,4 +1,5 @@
-import { defineStore } from 'pinia'
+
+import { defineStore } from 'pinia';
 
 export enum LANGUAGES {
   English = 'English',
@@ -10,7 +11,7 @@ const SURVEY_LOCALES: Record<LANGUAGES, string> = {
   [LANGUAGES.English]: 'en',
   [LANGUAGES.Spanish]: 'es',
   [LANGUAGES.French]: 'fr',
-}
+};
 
 export const useUserSettingsStore = defineStore('userSettings', {
   state: () => ({
@@ -21,7 +22,8 @@ export const useUserSettingsStore = defineStore('userSettings', {
   },
   actions: {
     setLanguage(lang: LANGUAGES) {
-      this.language = lang
+      this.language = lang;
     },
   },
-})
+});
+
