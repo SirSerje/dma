@@ -10,10 +10,10 @@
 </template>
 
 <script setup lang="ts">
-import { useUserSettingsStore, LANGUAGES } from '@/stores/userSettings';
+import { useUserSettingsStore, LANGUAGES } from '@/stores/userSettings'
 
-const userSettings = useUserSettingsStore();
-const languageOptions = Object.values(LANGUAGES);
+const userSettings = useUserSettingsStore()
+const languageOptions = Object.values(LANGUAGES)
 </script>
 
 <style scoped>
