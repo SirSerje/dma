@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
-    "preview": "echo 'vite preview'",
+    "preview": "vite preview",
     "test:unit": "vitest",
     "e2e": "playwright test",
     "report": "pnpm exec playwright install",

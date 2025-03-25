@@ -1,31 +1,33 @@
 <template>
   <div v-if="store.loading">Loading...</div>
-  <SurveyComponent v-else :model="survey.value" />
+  <SurveyComponent v-else :model="survey" />
 </template>
+
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import { Model as SurveyModel } from 'survey-core'
+import type { Ref } from 'vue'
+import { Model } from 'survey-core'
 import { SurveyComponent } from 'survey-vue3-ui'
 import * as SurveyTheme from 'survey-core/themes'
 import 'survey-core/defaultV2.min.css'
 import 'survey-core/survey.i18n'
-import { useSurveyStore } from '@/stores/surveyStore'
+import { useSurveyStore } from '../../stores/surveyStore'
 import { useUserSettingsStore } from '@/stores/userSettings'
 import { options } from './utils.ts'
 
 const store = useSurveyStore()
 const userSettings = useUserSettingsStore()
-const survey = ref<SurveyModel>(new SurveyModel({}))
 
+// @ts-expect-error: Model can't wrap properly into Ref type
+const survey: Ref<Model> = ref(new Model({}))
 survey.value.applyTheme(SurveyTheme.SharpLight)
 
 watch(
   () => store.data,
   (storeData) => {
-    const value = storeData?.data?.survey?.config
+    const value = storeData?.data?.config
     if (!value) return
-
-    survey.value = new SurveyModel(value)
+    survey.value = new Model(value)
     survey.value.onComplete.add((sender) => {
       fetch('/api/submit', {
         method: 'POST',
@@ -36,6 +38,7 @@ watch(
   },
   { immediate: true },
 )
+const prepareResponse = (data: unknown) => JSON.stringify(data)
 
 watch(
   () => userSettings.surveyLocale,
@@ -49,8 +52,4 @@ onMounted(() => {
     .then((res) => res.json())
     .then(store.setConfig)
 })
-
-function prepareResponse(data: unknown) {
-  return JSON.stringify(data)
-}
 </script>
