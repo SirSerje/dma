@@ -4,7 +4,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
+import type { Ref } from 'vue';
 import { Model } from 'survey-core'
 import { SurveyComponent } from 'survey-vue3-ui'
 import * as SurveyTheme from 'survey-core/themes'
@@ -17,6 +18,7 @@ import { options } from './utils.ts';
 const store = useSurveyStore()
 const userSettings = useUserSettingsStore()
 
+// @ts-expect-error: Model can't wrap properly into Ref type
 const survey: Ref<Model> = ref(new Model({}))
 survey.value.applyTheme(SurveyTheme.SharpLight)
 
@@ -36,7 +38,7 @@ watch(
   },
   { immediate: true }
 )
-const prepareResponse = (data) => JSON.stringify(data);
+const prepareResponse = (data: unknown) => JSON.stringify(data);
 
 watch(
   () => userSettings.surveyLocale,
